@@ -1,6 +1,17 @@
-# This will be the miracle things
+import requests
 
-git remote add academy git@github.com:your-repo.git
+headers = {
+    'Host': 'hh.ru',
+    'User-Agent': 'Safari',
+    'Accept': '*/*',
+    'Accept-Encoding': 'gzip, deflare, br',
+    'Connection': 'keep-alive'
+}
 
+hh_requests = requests.get
+('''https://hh.ru/search/vacancy?schedule=remote&items_on_page=100&search_field=name&
+st=searchVacancy&text=%D1%80%D0%B5%D0%BA%D1%80%D1%83%D1%82%D0%B5%D1%80+OR+recruiter+OR+
+Recruitment+%28talent+aqusition%29+OR+%28%D0%BF%D0%BE%D0%B4%D0%B1%D0%BE%D1%80%D1%83+%D0%
+BF%D0%B5%D1%80%D1%81%D0%BE%D0%BD%D0%B0%D0%BB%D0%B0%29+OR+Researcher''', headers = headers)
 
-sfdsfd
+print(hh_requests)
