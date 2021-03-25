@@ -1,6 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 
+ITEMS = 100
+URL = '''https://hh.ru/search/vacancy?schedule=remote&search_field=name&
+    st=searchVacancy&text=%D1\'%80%D0%B5%D0%BA%D1\'%80%D1\'%83%D1\'%82%D0%B5%D1%80+OR+recruiter+OR+
+    Recruitment+%28talent+aqusition%29+OR+\'%28%D0%BF%D0%BE%D0%B4%D0%B1%D0%BE%D1\'%80%D1%83+%D0%
+    BF%D0%B5%D1\'%80%D1\'%81%D0%BE%D0%BD%D0%B0%D0%BB%D0%B0%29+OR+Researcher'''
+
 headers = {
         'Host': 'hh.ru',
         'User-Agent': 'Safari',
@@ -17,10 +23,7 @@ def extract_max_page():
         'Accept-Encoding': 'gzip, deflate, br',
         'Connection': 'keep-alive'
     }
-    hh_request = requests.get('''https://hh.ru/search/vacancy?schedule=remote&items_on_page=100&search_field=name&
-    st=searchVacancy&text=%D1\'%80%D0%B5%D0%BA%D1\'%80%D1\'%83%D1\'%82%D0%B5%D1%80+OR+recruiter+OR+
-    Recruitment+%28talent+aqusition%29+OR+\'%28%D0%BF%D0%BE%D0%B4%D0%B1%D0%BE%D1\'%80%D1%83+%D0%
-    BF%D0%B5%D1\'%80%D1\'%81%D0%BE%D0%BD%D0%B0%D0%BB%D0%B0%29+OR+Researcher''', headers = headers)
+    hh_request = requests.get(f'{URL}&items_on_page={ITEMS}', headers = headers)
 
     hh_soup = BeautifulSoup(hh_request.text, 'html.parser')
 
@@ -46,10 +49,7 @@ def extract_job(html):
 def extract_hh_jobs(last_page):
     jobs = []
     for page in range(last_page):
-        result = requests.get('''https://hh.ru/search/vacancy?schedule=remote&items_on_page=100&search_field=name&
-    st=searchVacancy&text=%D1\'%80%D0%B5%D0%BA%D1\'%80%D1\'%83%D1\'%82%D0%B5%D1%80+OR+recruiter+OR+
-    Recruitment+%28talent+aqusition%29+OR+\'%28%D0%BF%D0%BE%D0%B4%D0%B1%D0%BE%D1\'%80%D1%83+%D0%
-    BF%D0%B5%D1\'%80%D1\'%81%D0%BE%D0%BD%D0%B0%D0%BB%D0%B0%29+OR+Researcher''', headers = headers)
+        result = requests.get(f'{URL}&items_on_page={ITEMS}', headers = headers)
         print(result.status_code)
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find_all('div', {'class': 'vacancy-serp-item'})
