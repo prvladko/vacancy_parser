@@ -16,25 +16,12 @@ headers = {
     }
 
 def extract_max_page():
-    headers = {
-        'Host': 'hh.ru',
-        'User-Agent': 'Safari',
-        'Accept': '*/*',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive'
-    }
     hh_request = requests.get(f'{URL}&items_on_page={ITEMS}', headers = headers)
-
     hh_soup = BeautifulSoup(hh_request.text, 'html.parser')
-
     pages = []
-
     paginator = hh_soup.find_all('span', {'class': 'pager-item-not-in-short-range'})
-
     for page in paginator:
         pages.append(int(page.find('a').text))
-
-
     return pages[-1] 
 
 def extract_job(html):
@@ -49,12 +36,12 @@ def extract_job(html):
 def extract_hh_jobs(last_page):
     jobs = []
     for page in range(last_page):
-        result = requests.get(f'{URL}&items_on_page={ITEMS}', headers = headers)
+        print(f'Парсинг страницы {page}')
+        result = requests.get(f'{URL}&page = {page}', headers = headers)
         print(result.status_code)
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find_all('div', {'class': 'vacancy-serp-item'})
         for result in results:
             job = extract_job(result)
-            jobs.append(job)
-        
+            jobs.append(job)        
     return jobs
