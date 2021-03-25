@@ -34,6 +34,12 @@ def extract_max_page():
 
     return pages[-1] 
 
+def extract_job(html):
+    title = html.find('a').text
+    company = html.find('div', {'class': 'vacancy-serp-item__meta-info-company'}).find('a').text
+    company = company.strip()
+    return{'title': title, 'company': company}
+
 def extract_hh_jobs(last_page):
     jobs = []
     for page in range(last_page):
@@ -45,8 +51,7 @@ def extract_hh_jobs(last_page):
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find_all('div', {'class': 'vacancy-serp-item'})
         for result in results:
-            title = result.find('a').text
-            company = result.find('div', {'class': 'vacancy-serp-item__meta-info-company'}).find('a').text
-            print(company)
+            job = extract_job(result)
+            jobs.append(job)
         
     return jobs
