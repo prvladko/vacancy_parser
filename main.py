@@ -16,8 +16,12 @@ BF%D0%B5%D1\'%80%D1\'%81%D0%BE%D0%BD%D0%B0%D0%BB%D0%B0%29+OR+Researcher''', head
 
 hh_soup = BeautifulSoup(hh_request.text, 'html.parser')
 
-paginator = hh_soup.find('span', {'class': 'bloko-button-group'})
+pages = []
 
-pages = paginator.find_all('a')
+paginator = hh_soup.find_all('span', {'class': 'pager-item-not-in-short-range'})
 
-print(paginator)
+for page in paginator:
+    pages.append(int(page.find('a').text))
+
+
+max_page = pages[-1]
