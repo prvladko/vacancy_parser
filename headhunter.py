@@ -46,5 +46,7 @@ def extract_hh_jobs(last_page):
         results = soup.find_all('div', {'class': 'vacancy-serp-item'})
         for result in results:
             title = result.find('a').text
+            company = result.find('div', {'class': 'vacancy-serp-item__meta-info-company'}).find('a').text
+            print(company)
         
     return jobs
