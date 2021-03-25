@@ -36,9 +36,12 @@ def extract_max_page():
 
 def extract_job(html):
     title = html.find('a').text
+    link = html.find('a')['href']
     company = html.find('div', {'class': 'vacancy-serp-item__meta-info-company'}).find('a').text
     company = company.strip()
-    return{'title': title, 'company': company}
+    location = html.find('span', {'data-qa': 'vacancy-serp__vacancy-address'}).text
+    location = location.partition(',')[0]
+    return{'title': title, 'company': company, 'location': location, 'link': link}
 
 def extract_hh_jobs(last_page):
     jobs = []
