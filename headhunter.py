@@ -36,9 +36,9 @@ def extract_job(html):
 def extract_jobs(last_page):
     jobs = []
     for page in range(last_page):
-        print(f'Парсинг страницы {page}')
+        print(f'Headhunter: парсинг страницы {page}')
         result = requests.get(f'{URL}&page = {page}', headers = headers)
-#        print(result.status_code)
+#       print(result.status_code)
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find_all('div', {'class': 'vacancy-serp-item'})
         for result in results:
