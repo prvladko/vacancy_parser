@@ -7,7 +7,8 @@ def extract_max_page():
     request = requests.get(URL)
     soup = BeautifulSoup(request.text, 'html.parser')
     pages = soup.find('div', {'class': 's-pagination'}).find_all('a')
-    print(pages)
+    last_page = int(pages[-2].get_text(strip=True))
+    return last_page
 
 def get_jobs():
     max_page = extract_max_page()
