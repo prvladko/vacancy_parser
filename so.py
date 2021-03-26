@@ -10,6 +10,19 @@ def extract_max_page():
     last_page = int(pages[-2].get_text(strip=True))
     return last_page
 
+def extract_job(html):
+    title = html.find('h2').find('a').text
+    company_row = html.find('h3').find_all('span', recursive=False)
+    company = company_row[0].get_text(strip=True)
+    location = company_row[1].get_text(strip=True)
+#   так тоже можно упростить, если точно знать сколько элементов будет в массиве, можно сразу записать их в нужные переменные в одной строке
+#   company, location = html.find('h3').find_all('span')
+#   company = company.get_text(strip=True)
+#   location = location.get_text(strip=True)
+    print(company, location)
+    return {'title': title, 'company': company}
+
+
 def extract_jobs(last_page):
     jobs = []
     for page in range(last_page):
@@ -17,7 +30,9 @@ def extract_jobs(last_page):
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find_all('div', {'class': '-job'})
         for result in results:
-            print(result['data-jobid'])
+            job = extract_job(result)
+            jobs.append(job)
+    return jobs
 
 def get_jobs():
     max_page = extract_max_page()
