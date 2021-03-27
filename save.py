@@ -1,7 +1,7 @@
 import csv
 
 def save_to_csv(jobs):
-    file = open('test.csv', mode='w', encoding='utf-8')
+    file = open('test.csv', mode='w', encoding='cp1251')
     writer = csv.writer(file)
     writer.writerow(['title', 'company', 'location', 'link'.encode("cp1251")])
     for job in jobs:

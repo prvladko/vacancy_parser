@@ -2,10 +2,14 @@ import requests
 from bs4 import BeautifulSoup
 
 ITEMS = 100
-URL = '''https://hh.ru/search/vacancy?schedule=remote&search_field=name&
-    st=searchVacancy&text=%D1\'%80%D0%B5%D0%BA%D1\'%80%D1\'%83%D1\'%82%D0%B5%D1%80+OR+recruiter+OR+
-    Recruitment+%28talent+aqusition%29+OR+\'%28%D0%BF%D0%BE%D0%B4%D0%B1%D0%BE%D1\'%80%D1%83+%D0%
-    BF%D0%B5%D1\'%80%D1\'%81%D0%BE%D0%BD%D0%B0%D0%BB%D0%B0%29+OR+Researcher'''
+#searchline = str(python+AND+junior)
+
+URL = 'https://hh.ru/search/vacancy?area=113&st=searchVacancy&text=python+AND+junior'
+
+#URL = '''https://hh.ru/search/vacancy?schedule=remote&search_field=name&
+#    st=searchVacancy&text=%D1\'%80%D0%B5%D0%BA%D1\'%80%D1\'%83%D1\'%82%D0%B5%D1%80+OR+recruiter+OR+
+#    Recruitment+%28talent+aqusition%29+OR+\'%28%D0%BF%D0%BE%D0%B4%D0%B1%D0%BE%D1\'%80%D1%83+%D0%
+#    BF%D0%B5%D1\'%80%D1\'%81%D0%BE%D0%BD%D0%B0%D0%BB%D0%B0%29+OR+Researcher'''
 
 headers = {
         'Host': 'hh.ru',
@@ -31,6 +35,8 @@ def extract_job(html):
     company = company.strip()
     location = html.find('span', {'data-qa': 'vacancy-serp__vacancy-address'}).text
     location = location.partition(',')[0]
+#    job_id = html['']
+#    link = f'https://hh.ru/vacancy/{job_id}'
     return{'title': title, 'company': company, 'location': location, 'link': link}
 
 def extract_jobs(last_page):
